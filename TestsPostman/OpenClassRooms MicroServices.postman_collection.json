@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "20716dcb-8ef1-4cbb-b837-c40da2aa280f",
+		"name": "OpenClassRooms MicroServices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AdminProduits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:9090/AdminProduits",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"AdminProduits"
+					]
+				},
+				"description": "c"
+			},
+			"response": []
+		},
+		{
+			"name": "TrierProduits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:9090/TrierProduits",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"TrierProduits"
+					]
+				},
+				"description": "c"
+			},
+			"response": []
+		},
+		{
+			"name": "AjouterProduit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"nom\": \"Paire de Ski\",\r\n\"prix\": 0,\r\n\"prixAchat\": 400\r\n}"
+				},
+				"url": {
+					"raw": "localhost:9090/Produits",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "c"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1e955c95-688b-46b3-ae57-ba641a6319ae",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "493943aa-2f80-40b1-9cf3-43ea59f64f9d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
