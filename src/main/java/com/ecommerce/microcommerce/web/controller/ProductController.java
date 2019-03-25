@@ -4,14 +4,19 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +24,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.model.Product;
+import com.ecommerce.microcommerce.web.exceptions.ProduitGratuitException;
 import com.ecommerce.microcommerce.web.exceptions.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -76,14 +83,24 @@ public class ProductController {
         return produit;
     }
 
-
-
-
+ 
     //ajouter un produit
     @PostMapping(value = "/Produits")
-
-    public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
-
+    public ResponseEntity<?> ajouterProduit(@Valid @RequestBody Product product, BindingResult bindingResult) {
+    	    	
+    	if(bindingResult.hasErrors()){
+    		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+    	      
+    	      for(FieldError field : fieldErrors){
+    	    	  if("prix".equals(field.getField())){
+    	    		 throw new ProduitGratuitException(field.getDefaultMessage());
+    	    	  }
+    	      }  
+    	      
+    	      return ResponseEntity.badRequest().body(fieldErrors);
+    	}
+    	
+    	
         Product productAdded =  productDao.save(product);
 
         if (productAdded == null)
